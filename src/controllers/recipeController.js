@@ -6,10 +6,11 @@ const model = initModels(sequelize);
 
 //thêm công thức
 export const themCongThuc = async (req, res) => {
-    const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam, MaNguoiDung } = req.body;
+    const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam } = req.body;
+    const { MaNguoiDung } = req.user; 
 
     try {
-        const congThuc = await CongThuc.create({
+        const congThuc = await model.CONGTHUC.create({
             TenCongThuc,
             MoTa,
             ThoiGianNau,
@@ -25,25 +26,26 @@ export const themCongThuc = async (req, res) => {
     }
 };
 
+
+
 //sửa công thức
 export const suaCongThuc = async (req, res) => {
     const { id } = req.params;
     const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam } = req.body;
+    const { MaNguoiDung } = req.user;
 
     try {
-        const congThuc = await CongThuc.findByPk(id);
+        const congThuc = await model.CONGTHUC.findByPk(id);
 
         if (!congThuc) {
             return res.status(404).json({ message: "Công thức không tồn tại" });
         }
 
-        await congThuc.update({
-            TenCongThuc,
-            MoTa,
-            ThoiGianNau,
-            NguyenLieu,
-            CachLam,
-        });
+        if (congThuc.MaNguoiDung !== MaNguoiDung) {
+            return res.status(403).json({ message: "Bạn không có quyền chỉnh sửa công thức này." });
+        }
+
+        await congThuc.update({ TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam });
 
         return res.status(200).json({ message: "Sửa công thức thành công", congThuc });
     } catch (error) {
@@ -52,12 +54,13 @@ export const suaCongThuc = async (req, res) => {
     }
 };
 
+
 //xóa công thức
 export const xoaCongThuc = async (req, res) => {
     const { id } = req.params;
 
     try {
-        const congThuc = await CongThuc.findByPk(id);
+        const congThuc = await model.CONGTHUC.findByPk(id);
 
         if (!congThuc) {
             return res.status(404).json({ message: "Công thức không tồn tại" });
@@ -68,6 +71,44 @@ export const xoaCongThuc = async (req, res) => {
         return res.status(200).json({ message: "Xóa công thức thành công" });
     } catch (error) {
         console.error("Lỗi khi xóa công thức:", error);
+        return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
+    }
+};
+
+// Lấy danh sách tất cả công thức
+export const layDanhSachCongThuc = async (req, res) => {
+    try {
+        const danhSachCongThuc = await model.CONGTHUC.findAll();
+
+        return res.status(200).json({
+            message: "Lấy danh sách công thức thành công",
+            danhSachCongThuc,
+        });
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách công thức:", error);
+        return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
+    }
+};
+
+// Lấy danh sách công thức do người dùng tạo
+export const layCongThucNguoiDung = async (req, res) => {
+    const { MaNguoiDung } = req.user;
+
+    try {
+        const danhSachCongThuc = await model.CONGTHUC.findAll({
+            where: { MaNguoiDung },
+        });
+
+        if (danhSachCongThuc.length === 0) {
+            return res.status(404).json({ message: "Bạn chưa tạo công thức nào." });
+        }
+
+        return res.status(200).json({
+            message: "Lấy danh sách công thức người dùng thành công",
+            danhSachCongThuc,
+        });
+    } catch (error) {
+        console.error("Lỗi khi lấy danh sách công thức người dùng:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };

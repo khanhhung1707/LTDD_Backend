@@ -2,28 +2,35 @@
 import jwt from 'jsonwebtoken'
 
 export const createToken = (user) => {
-    const { IDNguoiDung, TenDangNhap, Email, HoTen, SDT, Role, AnhDaiDien } = user;
+    const { MaNguoiDung, TenNguoiDung, Email, VaiTro } = user;
     const payload = {
-        id: IDNguoiDung,
-        username: TenDangNhap,
-        email: Email,
-        fullName: HoTen,
-        phone: SDT,
-        role: Role, 
-        avatar: AnhDaiDien,
+        MaNguoiDung: MaNguoiDung,
+        TenNguoiDung: TenNguoiDung,
+        Email: Email,
+        VaiTro: VaiTro, 
     };
 
-    return jwt.sign({ data: payload }, "DACN_HUNGHAU", { algorithm: "HS256", expiresIn: "1h" });
+    return jwt.sign({ data: payload }, "LTDD", { algorithm: "HS256", expiresIn: "1h" });
 };
 
-export const verifyToken = (token) => {
+// export const verifyToken = (token) => {
 
+//     try {
+//         return jwt.verify(token, "LTDD");
+//     } catch (error) {
+//         return error;
+//     }
+// }
+export const verifyToken = (token) => {
     try {
-        return jwt.verify(token, "DACN_HUNGHAU");
+        console.log('Verifying token:', token); // Log token trước khi xác thực
+        return jwt.verify(token, "LTDD");
     } catch (error) {
-        return error;
+        console.log("Error verifying token:", error.message); // Log khi gặp lỗi
+        throw new Error("Token không hợp lệ");
     }
 }
+
 
 // xử lý refresh token
 export const createTokenRef = (data) => {

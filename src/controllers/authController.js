@@ -66,7 +66,7 @@ export const signIn = async (req, res) => {
       }
   
       // Tạo token
-      const token = createToken(user.MaNguoiDung);
+      const token = createToken(user.toJSON());
   
       // Trả về thông tin người dùng
       return responseData(res, 200, "Đăng nhập thành công", {
