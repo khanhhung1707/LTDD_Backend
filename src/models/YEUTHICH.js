@@ -1,10 +1,10 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class DANHGIA extends Model {
+export default class YEUTHICH extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    MaDanhGia: {
+    MaYeuThich: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -18,21 +18,22 @@ export default class DANHGIA extends Model {
         key: 'MaNguoiDung'
       }
     },
-    MaCongTrinh: {
+    MaCongThuc: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      references: {
+        model: 'CONGTHUC',
+        key: 'MaCongThuc'
+      }
     },
-    SoSao: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
-    NgayDanhGia: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
+    NgayYeuThich: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,
-    tableName: 'DANHGIA',
+    tableName: 'YEUTHICH',
     timestamps: false,
     indexes: [
       {
@@ -40,7 +41,7 @@ export default class DANHGIA extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "MaDanhGia" },
+          { name: "MaYeuThich" },
         ]
       },
       {
@@ -48,6 +49,13 @@ export default class DANHGIA extends Model {
         using: "BTREE",
         fields: [
           { name: "MaNguoiDung" },
+        ]
+      },
+      {
+        name: "MaCongThuc",
+        using: "BTREE",
+        fields: [
+          { name: "MaCongThuc" },
         ]
       },
     ]

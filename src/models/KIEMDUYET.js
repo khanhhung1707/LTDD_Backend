@@ -1,10 +1,10 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class CONGTHUC extends Model {
+export default class KIEMDUYET extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    MaCongThuc: {
+    MaKiemDuyet: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -41,6 +41,16 @@ export default class CONGTHUC extends Model {
         key: 'MaNguoiDung'
       }
     },
+    TrangThai: {
+      type: DataTypes.ENUM('DangCho','Duyet','KhongDuyet'),
+      allowNull: true,
+      defaultValue: "DangCho"
+    },
+    NgayTao: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+    },
     MaDanhMuc: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -52,7 +62,7 @@ export default class CONGTHUC extends Model {
     }
   }, {
     sequelize,
-    tableName: 'CONGTHUC',
+    tableName: 'KIEMDUYET',
     timestamps: false,
     indexes: [
       {
@@ -60,7 +70,7 @@ export default class CONGTHUC extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "MaCongThuc" },
+          { name: "MaKiemDuyet" },
         ]
       },
       {

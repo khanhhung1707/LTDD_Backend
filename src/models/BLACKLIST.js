@@ -1,10 +1,10 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class CONGTHUC extends Model {
+export default class BLACKLIST extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    MaCongThuc: {
+    MaBlacklist: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -41,6 +41,16 @@ export default class CONGTHUC extends Model {
         key: 'MaNguoiDung'
       }
     },
+    LyDo: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      comment: "Không phù hợp"
+    },
+    NgayChuyen: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+    },
     MaDanhMuc: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -52,7 +62,7 @@ export default class CONGTHUC extends Model {
     }
   }, {
     sequelize,
-    tableName: 'CONGTHUC',
+    tableName: 'BLACKLIST',
     timestamps: false,
     indexes: [
       {
@@ -60,7 +70,7 @@ export default class CONGTHUC extends Model {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "MaCongThuc" },
+          { name: "MaBlacklist" },
         ]
       },
       {

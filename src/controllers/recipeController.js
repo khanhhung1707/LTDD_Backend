@@ -6,27 +6,33 @@ const model = initModels(sequelize);
 
 //thêm công thức
 export const themCongThuc = async (req, res) => {
-    const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam } = req.body;
-    const { MaNguoiDung } = req.user; 
+    const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam, MaDanhMuc } = req.body;
+    const { MaNguoiDung } = req.user;
 
     try {
-        const congThuc = await model.CONGTHUC.create({
+        // Lấy TenDanhMuc từ bảng DANHMUC
+        const danhMuc = await model.DANHMUC.findByPk(MaDanhMuc);
+        if (!danhMuc) {
+            return res.status(404).json({ message: "Danh mục không tồn tại" });
+        }
+
+        // Thêm công thức vào bảng KIEMDUYET
+        const congThuc = await model.KIEMDUYET.create({
             TenCongThuc,
             MoTa,
             ThoiGianNau,
             NguyenLieu,
             CachLam,
             MaNguoiDung,
+            MaDanhMuc
         });
 
-        return res.status(201).json({ message: "Thêm công thức thành công", congThuc });
+        return res.status(201).json({ message: "Công thức đã được gửi vào kiểm duyệt", congThuc });
     } catch (error) {
-        console.error("Lỗi khi thêm công thức:", error);
+        console.error("Lỗi khi thêm công thức vào kiểm duyệt:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
-
-
 
 //sửa công thức
 export const suaCongThuc = async (req, res) => {
