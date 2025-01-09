@@ -27,7 +27,6 @@ export const yeuThichCongThuc = async (req, res) => {
             newYeuThich,
         });
     } catch (error) {
-        console.error("Lỗi khi yêu thích công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -51,7 +50,6 @@ export const boYeuThichCongThuc = async (req, res) => {
             message: "Đã bỏ yêu thích công thức thành công",
         });
     } catch (error) {
-        console.error("Lỗi khi bỏ yêu thích công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -74,7 +72,6 @@ export const layDanhSachCongThucYeuThich = async (req, res) => {
             yeuThichList,
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách công thức yêu thích:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -98,7 +95,6 @@ export const layDanhSachCongThucYeuThichTheoNguoiDung = async (req, res) => {
             yeuThichList,
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách công thức yêu thích theo người dùng:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };

@@ -6,7 +6,7 @@ const model = initModels(sequelize);
 
 //thêm công thức
 export const themCongThuc = async (req, res) => {
-    const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam, MaDanhMuc } = req.body;
+    const { TenCongThuc, HinhAnh, MoTa, ThoiGianNau, NguyenLieu, CachLam, MaDanhMuc } = req.body;
     const { MaNguoiDung } = req.user;
 
     try {
@@ -19,6 +19,7 @@ export const themCongThuc = async (req, res) => {
         // Thêm công thức vào bảng KIEMDUYET
         const congThuc = await model.KIEMDUYET.create({
             TenCongThuc,
+            HinhAnh,
             MoTa,
             ThoiGianNau,
             NguyenLieu,
@@ -29,7 +30,6 @@ export const themCongThuc = async (req, res) => {
 
         return res.status(201).json({ message: "Công thức đã được gửi vào kiểm duyệt", congThuc });
     } catch (error) {
-        console.error("Lỗi khi thêm công thức vào kiểm duyệt:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -37,7 +37,7 @@ export const themCongThuc = async (req, res) => {
 //sửa công thức
 export const suaCongThuc = async (req, res) => {
     const { id } = req.params;
-    const { TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam } = req.body;
+    const { TenCongThuc, HinhAnh, MoTa, ThoiGianNau, NguyenLieu, CachLam } = req.body;
     const { MaNguoiDung } = req.user;
 
     try {
@@ -51,11 +51,10 @@ export const suaCongThuc = async (req, res) => {
             return res.status(403).json({ message: "Bạn không có quyền chỉnh sửa công thức này." });
         }
 
-        await congThuc.update({ TenCongThuc, MoTa, ThoiGianNau, NguyenLieu, CachLam });
+        await congThuc.update({ TenCongThuc, HinhAnh, MoTa, ThoiGianNau, NguyenLieu, CachLam });
 
         return res.status(200).json({ message: "Sửa công thức thành công", congThuc });
     } catch (error) {
-        console.error("Lỗi khi sửa công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -76,7 +75,6 @@ export const xoaCongThuc = async (req, res) => {
 
         return res.status(200).json({ message: "Xóa công thức thành công" });
     } catch (error) {
-        console.error("Lỗi khi xóa công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -91,7 +89,6 @@ export const layDanhSachCongThuc = async (req, res) => {
             danhSachCongThuc,
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -114,7 +111,48 @@ export const layCongThucNguoiDung = async (req, res) => {
             danhSachCongThuc,
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách công thức người dùng:", error);
+        return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
+    }
+};
+
+// xem chi tiết công thức
+export const xemChiTietCongThuc = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        // Lấy thông tin chi tiết công thức dựa theo id
+        const congThuc = await model.CONGTHUC.findByPk(id, {
+            include: [
+                {
+                    model: model.DANHMUC,
+                    as: "MaDanhMuc_DANHMUC", 
+                    attributes: ["MaDanhMuc", "TenDanhMuc"],
+                },
+                {
+                    model: model.USER,
+                    as: "MaNguoiDung_USER",
+                    attributes: ["MaNguoiDung", "TenNguoiDung", "Email"],
+                },
+            ],
+            attributes: [
+                "MaCongThuc",
+                "TenCongThuc",
+                "HinhAnh",
+                "MoTa",
+                "ThoiGianNau",
+                "NguyenLieu",
+                "CachLam",
+                "MaDanhMuc",
+            ],
+        });
+
+        if (!congThuc) {
+            return res.status(404).json({ message: "Không tìm thấy công thức với ID đã cho" });
+        }
+
+        return res.status(200).json({ message: "Chi tiết công thức", congThuc });
+    } catch (error) {
+        console.error("Lỗi khi lấy chi tiết công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };

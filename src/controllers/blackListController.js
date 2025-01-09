@@ -14,7 +14,6 @@ export const layDanhSachCongThucBlacklist = async (req, res) => {
             danhSachCongThucBlacklist,
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách công thức trong bảng BLACKLIST:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -34,7 +33,6 @@ export const xoaCongThucBlacklist = async (req, res) => {
 
         return res.status(200).json({ message: "Xóa công thức trong bảng BLACKLIST thành công" });
     } catch (error) {
-        console.error("Lỗi khi xóa công thức trong bảng BLACKLIST:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };

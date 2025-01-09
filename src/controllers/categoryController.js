@@ -15,7 +15,6 @@ export const layDanhSachDanhMuc = async (req, res) => {
             danhMucList
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách danh mục:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -41,7 +40,6 @@ export const themDanhMuc = async (req, res) => {
             newDanhMuc,
         });
     } catch (error) {
-        console.error("Lỗi khi thêm danh mục:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -66,7 +64,6 @@ export const suaDanhMuc = async (req, res) => {
             danhMuc,
         });
     } catch (error) {
-        console.error("Lỗi khi sửa danh mục:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -87,7 +84,6 @@ export const xoaDanhMuc = async (req, res) => {
 
         return res.status(200).json({ message: "Danh mục đã được xóa thành công" });
     } catch (error) {
-        console.error("Lỗi khi xóa danh mục:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };

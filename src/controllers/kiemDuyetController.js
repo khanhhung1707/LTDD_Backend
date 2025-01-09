@@ -24,6 +24,7 @@ export const kiemDuyetCongThuc = async (req, res) => {
             // Chuyển công thức sang bảng CONGTHUC
             const congThuc = await model.CONGTHUC.create({
                 TenCongThuc: congThucKiemDuyet.TenCongThuc,
+                HinhAnh: congThucKiemDuyet.HinhAnh,
                 MoTa: congThucKiemDuyet.MoTa,
                 ThoiGianNau: congThucKiemDuyet.ThoiGianNau,
                 NguyenLieu: congThucKiemDuyet.NguyenLieu,
@@ -40,6 +41,7 @@ export const kiemDuyetCongThuc = async (req, res) => {
             // Nếu không duyệt, chuyển công thức vào bảng BLACKLIST
             const blacklist = await model.BLACKLIST.create({
                 TenCongThuc: congThucKiemDuyet.TenCongThuc,
+                HinhAnh: congThucKiemDuyet.HinhAnh,
                 MoTa: congThucKiemDuyet.MoTa,
                 ThoiGianNau: congThucKiemDuyet.ThoiGianNau,
                 NguyenLieu: congThucKiemDuyet.NguyenLieu,

@@ -14,6 +14,10 @@ export default class BLACKLIST extends Model {
       type: DataTypes.STRING(255),
       allowNull: false
     },
+    HinhAnh: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     MoTa: {
       type: DataTypes.TEXT,
       allowNull: true

@@ -20,7 +20,6 @@ export const layThongTinCaNhan = async (req, res) => {
 
         return res.status(200).json({ message: "Lấy thông tin cá nhân thành công", nguoiDung });
     } catch (error) {
-        console.error("Lỗi khi lấy thông tin cá nhân:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -47,7 +46,6 @@ export const thayDoiThongTinCaNhan = async (req, res) => {
 
         return res.status(200).json({ message: "Thay đổi thông tin cá nhân thành công", nguoiDung });
     } catch (error) {
-        console.error("Lỗi khi thay đổi thông tin cá nhân:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -65,7 +63,6 @@ export const getUserById = async (req, res) => {
 
         res.status(200).json({ user });
     } catch (error) {
-        console.error("Lỗi khi lấy thông tin người dùng:", error);
         res.status(500).json({ message: "Lỗi hệ thống!" });
     }
 };
@@ -79,7 +76,6 @@ export const getAllUsers = async (req, res) => {
 
         res.status(200).json({ users });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách người dùng:", error);
         res.status(500).json({ message: "Lỗi hệ thống!" });
     }
 };
@@ -109,7 +105,6 @@ export const updateUser = async (req, res) => {
         await user.save();
         res.status(200).json({ message: "Cập nhật thông tin người dùng thành công!" });
     } catch (error) {
-        console.error("Lỗi khi cập nhật thông tin người dùng:", error);
         res.status(500).json({ message: "Lỗi hệ thống!" });
     }
 };
@@ -128,7 +123,6 @@ export const deleteUser = async (req, res) => {
         await user.destroy();
         res.status(200).json({ message: "Xóa người dùng thành công!" });
     } catch (error) {
-        console.error("Lỗi khi xóa người dùng:", error);
         res.status(500).json({ message: "Lỗi hệ thống!" });
     }
 };
