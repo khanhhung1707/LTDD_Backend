@@ -59,7 +59,6 @@ export const kiemDuyetCongThuc = async (req, res) => {
             return res.status(400).json({ message: "Trạng thái không hợp lệ" });
         }
     } catch (error) {
-        console.error("Lỗi khi duyệt công thức:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -74,7 +73,6 @@ export const layDanhSachCongThucKiemDuyet = async (req, res) => {
             danhSachCongThucKiemDuyet,
         });
     } catch (error) {
-        console.error("Lỗi khi lấy danh sách công thức trong bảng KIEMDUYET:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };
@@ -94,7 +92,6 @@ export const xoaCongThucKiemDuyet = async (req, res) => {
 
         return res.status(200).json({ message: "Xóa công thức trong bảng KIEMDUYET thành công" });
     } catch (error) {
-        console.error("Lỗi khi xóa công thức trong bảng KIEMDUYET:", error);
         return res.status(500).json({ message: "Có lỗi xảy ra: " + error.message });
     }
 };

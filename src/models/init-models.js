@@ -19,6 +19,8 @@ export default function initModels(sequelize) {
   const USER = _USER.init(sequelize, DataTypes);
   const YEUTHICH = _YEUTHICH.init(sequelize, DataTypes);
 
+  DANHGIA.belongsTo(CONGTHUC, { as: "MaCongThuc_CONGTHUC", foreignKey: "MaCongThuc"});
+  CONGTHUC.hasMany(DANHGIA, { as: "DANHGIa", foreignKey: "MaCongThuc"});
   LICHSU.belongsTo(CONGTHUC, { as: "MaCongThuc_CONGTHUC", foreignKey: "MaCongThuc"});
   CONGTHUC.hasMany(LICHSU, { as: "LICHSUs", foreignKey: "MaCongThuc"});
   YEUTHICH.belongsTo(CONGTHUC, { as: "MaCongThuc_CONGTHUC", foreignKey: "MaCongThuc"});

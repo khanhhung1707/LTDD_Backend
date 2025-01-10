@@ -18,17 +18,22 @@ export default class DANHGIA extends Model {
         key: 'MaNguoiDung'
       }
     },
-    MaCongTrinh: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     SoSao: {
       type: DataTypes.INTEGER,
       allowNull: true
     },
     NgayDanhGia: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
+    },
+    MaCongThuc: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'CONGTHUC',
+        key: 'MaCongThuc'
+      }
     }
   }, {
     sequelize,
@@ -48,6 +53,13 @@ export default class DANHGIA extends Model {
         using: "BTREE",
         fields: [
           { name: "MaNguoiDung" },
+        ]
+      },
+      {
+        name: "MaCongThuc",
+        using: "BTREE",
+        fields: [
+          { name: "MaCongThuc" },
         ]
       },
     ]

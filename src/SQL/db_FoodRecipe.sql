@@ -49,12 +49,14 @@ DROP TABLE IF EXISTS `DANHGIA`;
 CREATE TABLE `DANHGIA` (
   `MaDanhGia` int NOT NULL AUTO_INCREMENT,
   `MaNguoiDung` int NOT NULL,
-  `MaCongTrinh` int NOT NULL,
   `SoSao` int DEFAULT NULL,
-  `NgayDanhGia` date DEFAULT NULL,
+  `NgayDanhGia` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `MaCongThuc` int NOT NULL,
   PRIMARY KEY (`MaDanhGia`),
   KEY `MaNguoiDung` (`MaNguoiDung`),
+  KEY `MaCongThuc` (`MaCongThuc`),
   CONSTRAINT `DANHGIA_ibfk_1` FOREIGN KEY (`MaNguoiDung`) REFERENCES `USER` (`MaNguoiDung`),
+  CONSTRAINT `DANHGIA_ibfk_2` FOREIGN KEY (`MaCongThuc`) REFERENCES `CONGTHUC` (`MaCongThuc`),
   CONSTRAINT `DANHGIA_chk_1` CHECK ((`SoSao` between 1 and 5))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
