@@ -9,10 +9,10 @@ import { isAuthenticated } from "../middleware/auth.js";
 
 const authRouter = express.Router();
 
-// Route đăng ký học viên
+// Route đăng ký 
 authRouter.post("/signup", signUp);
 
-// Route đăng nhập học viên
+// Route đăng nhập 
 authRouter.post("/login", signIn);
 
 // Route quên mật khẩu
