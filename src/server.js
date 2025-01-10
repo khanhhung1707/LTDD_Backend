@@ -7,6 +7,7 @@ import kiemDuyetRouter from './routes/kiemDuyetRoutes.js';
 import blackListRouter from './routes/blackListRoutes.js';
 import categoryRouter from './routes/categoryRoutes.js';
 import favoriteRouter from './routes/favoriteRoutes.js';
+import ratingRouter from './routes/ratingRoutes.js';
 
 const app = express();
 
@@ -20,6 +21,6 @@ app.use(kiemDuyetRouter)
 app.use(blackListRouter)
 app.use(categoryRouter)
 app.use(favoriteRouter)
-
+app.use(ratingRouter)
 
 app.listen(8080)
